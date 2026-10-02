@@ -1,7 +1,0 @@
-format: json
-fields:
-  guid: uuid
-  data: string
-  time_sent: datetime
-  host_ip: ip
-  target_ip: ip

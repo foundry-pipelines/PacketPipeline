@@ -5,11 +5,7 @@ Configs:
   Repo: https://gitlab.com/foundry-common/configs.git
   # Ref: v1   # optional, defaults to main
 
-Schemas:
-  XmlPackets: schemas/xml_packets.yaml
-  Packets: schemas/packets.yaml
-  EnrichedPackets: schemas/enriched_packets.yaml
-
+# DataSchema names a schema in https://gitlab.com/foundry-common/foundry-models (Foundry.Models package).
 DataSets:
   Input:
     Type: Kafka
