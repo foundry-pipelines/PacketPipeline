@@ -1,0 +1,7 @@
+format: xml
+fields:
+  guid: uuid
+  data: base64
+  time_sent: datetime
+  host_ip: ip
+  target_ip: ip

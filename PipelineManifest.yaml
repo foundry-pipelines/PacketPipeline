@@ -1,0 +1,46 @@
+# yaml-language-server: $schema=https://gitlab.com/foundry-common/scripts/-/jobs/artifacts/main/raw/manifest.schema.json?job=schema
+Name: EnrichmentPipeline
+
+Configs:
+  Repo: https://gitlab.com/foundry-common/configs.git
+  # Ref: v1   # optional, defaults to main
+
+Schemas:
+  XmlPackets: schemas/xml_packets.yaml
+  Packets: schemas/packets.yaml
+  EnrichedPackets: schemas/enriched_packets.yaml
+
+DataSets:
+  Input:
+    Type: Kafka
+    Config: kafka/prod
+    DataSchema: XmlPackets
+    Topic: raw.xml
+
+  ConvertedPackets:
+    Type: Kafka
+    Config: kafka/prod
+    DataSchema: Packets
+    Topic: enrichment.packets
+
+  Output:
+    Type: Kafka
+    Config: kafka/prod
+    DataSchema: EnrichedPackets
+    Topic: packets.enriched
+
+Transforms:
+  XmlToJson:
+    Repo: https://gitlab.com/foundry-enrichers/xmltojsontransformer.git
+    In: Input
+    Out: ConvertedPackets
+
+  Decode:
+    Repo: https://gitlab.com/foundry-enrichers/decodingtransformer.git
+    In: ConvertedPackets
+    Out: Output
+
+  Isp:
+    Repo: https://gitlab.com/foundry-enrichers/IspEnricher.git
+    In: ConvertedPackets
+    Out: Output
